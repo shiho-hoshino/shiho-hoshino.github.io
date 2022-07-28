@@ -7,17 +7,26 @@
     <meta charset="utf-8">
     <link href="style.css" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-        function takeToken(){
-            const pre_queryDict = window.location.search.substring(1).split("&");
-            let queryDict = {};
-            for (i=0;i<pre_queryDict.length;i++){
-                let kvList = pre_queryDict[i].split("=");a
-                let k = kvList[0]; let v = kvList[1];
-                queryDict[k] = v;
-            }
-            document.getElementById("oauthverifier").innerText = queryDict["oauth_verifier"];
+        /**
+         * Get the URL parameter value
+         *
+         * @param  name {string} パラメータのキー文字列
+         * @return  url {url} 対象のURL文字列（任意）
+         */
+        function getParam(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        window.addEventListener("load", takeToken);
+        window.addEventListener("load", function(){
+            const text = getParam('oauth_verifier');
+            document.getElementById("oauthverifier").innerText = text;
+            console.log(text);
+        });
     </script>
 </head>
 
