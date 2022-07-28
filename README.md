@@ -1,1 +1,0 @@
-# shiho-hoshino.github.io
